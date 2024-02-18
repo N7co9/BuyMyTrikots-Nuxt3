@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <footer class="w-full" style="position: fixed; bottom: 0; left: 0; right: 0;">
     <div class="mx-auto max-w-7xl px-6 py-10 md:flex md:items-center md:justify-between lg:px-8">
@@ -63,5 +59,4 @@
 </template>
 
 <style scoped>
-
 </style>

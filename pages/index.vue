@@ -1,4 +1,7 @@
 <script setup>
+definePageMeta({
+  layout: 'index-layout'
+})
 import {ref} from 'vue'
 import {
   Dialog,

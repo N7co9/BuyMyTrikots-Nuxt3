@@ -1,6 +1,6 @@
 <template>
-  <footer class="w-full" style="position: fixed; bottom: 0; left: 0; right: 0;">
-    <div class="mx-auto max-w-7xl px-6 py-10 md:flex md:items-center md:justify-between lg:px-8">
+  <footer class="w-full bg-white">
+    <div class="mx-auto max-w-7xl px-6 py-6 md:flex md:items-center md:justify-between lg:px-8">
       <div class="flex justify-center space-x-12 md:order-2">
 
         <a href="http://localhost:8000/home/browse/Borussia%20Dortmund" class="text-gray-400 hover:text-gray-500">About
@@ -59,4 +59,11 @@
 </template>
 
 <style scoped>
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 9999; /* Ensure footer appears above other content */
+}
 </style>

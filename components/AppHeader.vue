@@ -1,30 +1,66 @@
 <script setup lang="ts">
-import {QuestionMarkCircleIcon, ShoppingBagIcon, UserCircleIcon, UserPlusIcon} from "@heroicons/vue/24/outline";
+import {ShoppingBagIcon, UserCircleIcon, UserPlusIcon, Cog8ToothIcon, UserMinusIcon} from "@heroicons/vue/24/outline";
+import {useState} from "nuxt/app";
+import {useLogout} from "~/composables/useLogout";
+
+
+const user = useState('user').value;
 </script>
 
 <template>
   <header class="relative z-10">
     <nav aria-label="Top">
       <div class="app-header backdrop-blur">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div v-if="user" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div>
             <div class="flex h-16 items-center justify-between">
               <a href="/user/login" class="hidden text-sm font-medium text-white lg:block ml-10">
-                <UserPlusIcon class="h-6 w-6 mr-2" aria-hidden="true"/>
+                <Cog8ToothIcon class="h-6 w-6 mr-2" aria-hidden="true"/>
               </a>
-              <p class="hidden text-sm font-medium text-white lg:block">Sign in</p>
+              <a href="">
+                <p class="hidden text-sm font-medium text-white lg:block">Settings</p>
+              </a>
               <div>
-                <a href="#" class="hidden text-sm font-medium text-white lg:block ml-10">
-                  <UserCircleIcon class="h-6 w-6 mr-2" aria-hidden="true"/>
+                <a href="" @click.prevent="useLogout" class="hidden text-sm font-medium text-white lg:block ml-10">
+                  <UserMinusIcon class="h-6 w-6 mr-2" aria-hidden="true"/>
                 </a>
               </div>
-              <p class="hidden text-sm font-medium text-white lg:block">Register</p>
+              <a href="" @click.prevent="useLogout">
+                <p class="hidden text-sm font-medium text-white lg:block">Logout</p>
+              </a>
               <div class="flex flex-1 items-center justify-end">
                 <div class="flex items-center lg:ml-8">
-                  <a href="#" class="p-2 text-white lg:hidden">
-                    <span class="sr-only">Help</span>
-                    <QuestionMarkCircleIcon class="h-6 w-6" aria-hidden="true"/>
-                  </a>
+                  <div class="ml-4 flow-root lg:ml-8">
+                    <a href="#" class="group flex items-center p-2 text-white">
+                      <ShoppingBagIcon class="ml-2 h-6 w-6 flex-shrink-0 text-white" aria-hidden="true"/>
+                      <span class="ml-2 text-sm font-medium text-white">0</span>
+                      <span class="sr-only">items in cart, view bag</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-else class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div>
+            <div class="flex h-16 items-center justify-between">
+              <a href="/user/login" class="hidden text-sm font-medium text-white lg:block ml-10">
+                <UserCircleIcon class="h-6 w-6 mr-2" aria-hidden="true"/>
+              </a>
+              <a href="/user/login">
+                <p class="hidden text-sm font-medium text-white lg:block">Sign in</p>
+              </a>
+              <div>
+                <a href="/user/registration" class="hidden text-sm font-medium text-white lg:block ml-10">
+                  <UserPlusIcon class="h-6 w-6 mr-2" aria-hidden="true"/>
+                </a>
+              </div>
+              <a href="/user/registration">
+                <p class="hidden text-sm font-medium text-white lg:block">Register</p>
+              </a>
+              <div class="flex flex-1 items-center justify-end">
+                <div class="flex items-center lg:ml-8">
                   <div class="ml-4 flow-root lg:ml-8">
                     <a href="#" class="group flex items-center p-2 text-white">
                       <ShoppingBagIcon class="ml-2 h-6 w-6 flex-shrink-0 text-white" aria-hidden="true"/>

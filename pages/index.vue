@@ -1,35 +1,23 @@
-<script setup>
+<script setup lang="ts">
+import {useState} from "nuxt/app";
+
 definePageMeta({
   layout: 'index-layout'
 })
-import {ref} from 'vue'
-import {
-  Dialog,
-  DialogPanel,
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
-  Tab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
-  TransitionChild,
-  TransitionRoot,
-} from '@headlessui/vue'
-import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  QuestionMarkCircleIcon,
-  ShoppingBagIcon,
-  XMarkIcon,
-} from '@heroicons/vue/24/outline'
-import {ChevronDownIcon} from '@heroicons/vue/20/solid'
+
+const user = useState('user').value
 </script>
 
 <AppHeader/>
 <template>
+  <div>
+    <p>
+      {{user}}
+    </p>
+  </div>
+
+  <div>
+  </div>
   <div class="bg-gradient-to-b from-green-100">
     <main>
       <section aria-labelledby="category-heading" class="pt-24 sm:pt-32 xl:mx-auto xl:max-w-7xl xl:px-8">

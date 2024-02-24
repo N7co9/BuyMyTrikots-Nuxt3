@@ -6,13 +6,13 @@ const {searchId, submitSearch} = useSearch();
 <template>
   <div class="relative bg-gray-900">
     <div aria-hidden="true" class="absolute inset-0 overflow-hidden">
-      <img src="../public/assets/SuitUpPlayOn-HeaderBG.png" alt="" class="h-full w-full object-cover object-center"/>
+      <img src="../assets/SuitUpPlayOn-HeaderBG.png" alt="" class="h-full w-full object-cover object-center"/>
     </div>
     <div aria-hidden="true" class="absolute inset-0 bg-gray-900 opacity-50"/>
 
     <div class="relative mx-auto flex max-w-3xl flex-col items-center text-center sm:py-12 lg:px-0">
       <div class="w-96 rounded-2xl overflow-hidden filter drop-shadow-2xl mb-2">
-        <img src="../public/assets/BMT-Logo.png" alt="LOGO" class="max-w-full h-auto">
+        <img src="../assets/BMT-Logo.png" alt="LOGO" class="max-w-full h-auto">
       </div>
       <div class="w-full">
         <form class="max-w-md mx-auto" @submit.prevent="submitSearch">

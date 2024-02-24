@@ -1,59 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import useAuthentication from '~/composables/useAuthentication';
+const { email, password, errorMessage, submitForm } = useAuthentication()
 
 definePageMeta({
   layout: 'login-layout'
 })
-
-const email = ref('');
-const password = ref('');
-const errorMessage = ref('');
-
-const submitForm = async () => {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      username: email.value,
-      password: password.value,
-    }),
-  };
-
-  try {
-    const response = await fetch('http://localhost:8000/api/login', requestOptions);
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      new Error(errorData.message || 'Failed to login');
-    }
-
-    const data = await response.json();
-
-    localStorage.setItem('token', data.token);
-
-  } catch (error : any) {
-    errorMessage.value = error.message || 'An error occurred. Please try again.';
-  }
-};
 </script>
 <template>
-  <div class="flex justify-center bg-gradient-to-b from-lime-100">
+  <div class="bg-gradient-to-b from-lime-100">
     <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <a href="/">
-            <img class="drop-shadow-2xl -ml-3" src="public/assets/BMT-Logo.png" alt="Your Company" />
+            <img class="drop-shadow-2xl -ml-3" src="../../assets/BMT-Logo.png" alt="Your Company" />
           </a>
           <h2 class="mt-2 text-2xl font-bold leading-9 flex justify-center tracking-tight text-gray-900">Sign in to your account</h2>
           <p class="mt-2 flex justify-center text-sm leading-6 text-gray-500">
             Not a member?
-            <div class="lex justify-center ml-2">
-              <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Register here</a>
-            </div>
+            <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500 ml-2">Register here</a>
           </p>
         </div>
 
         <div class="mt-10">
+          <div v-if="errorMessage" class="bg-red-500 text-white font-bold rounded-md py-2 px-4">
+            {{ errorMessage }}
+          </div>
           <div>
             <form @submit.prevent="submitForm" class="space-y-6">
               <div>

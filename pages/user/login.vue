@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useAuthentication from '~/composables/useAuthentication';
+import useAuthentication from '~/composables/user/useAuthentication';
 const { email, password, errorMessage, submitForm } = useAuthentication()
 
 definePageMeta({

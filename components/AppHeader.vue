@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ShoppingBagIcon, UserCircleIcon, UserPlusIcon, Cog8ToothIcon, UserMinusIcon} from "@heroicons/vue/24/outline";
 import {useState} from "nuxt/app";
-import {useLogout} from "~/composables/useLogout";
+import {useLogout} from "~/composables/user/useLogout";
 
 
 const user = useState('user').value;
@@ -14,10 +14,10 @@ const user = useState('user').value;
         <div v-if="user" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div>
             <div class="flex h-16 items-center justify-between">
-              <a href="/user/login" class="hidden text-sm font-medium text-white lg:block ml-10">
+              <a href="/user/settings/general" class="hidden text-sm font-medium text-white lg:block ml-10">
                 <Cog8ToothIcon class="h-6 w-6 mr-2" aria-hidden="true"/>
               </a>
-              <a href="">
+              <a href="/user/settings/general">
                 <p class="hidden text-sm font-medium text-white lg:block">Settings</p>
               </a>
               <div>

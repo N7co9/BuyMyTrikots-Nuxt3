@@ -3,7 +3,7 @@ definePageMeta({
   layout: 'registration-layout'
 })
 
-import useRegistration from '~/composables/useRegistration';
+import useRegistration from '~/composables/user/useRegistration';
 const { username, email, password, errorMessage, submitForm } = useRegistration()
 const formSubmitted = ref(false);
 const handleSubmit = async () => {

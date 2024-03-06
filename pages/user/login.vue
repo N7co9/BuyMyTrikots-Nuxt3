@@ -22,8 +22,8 @@ definePageMeta({
         </div>
 
         <div class="mt-10">
-          <div v-if="errorMessage" class="bg-red-500 text-white font-bold rounded-md py-2 px-4">
-            {{ errorMessage }}
+          <div v-if="errorMessage" class="bg-red-500 mb-6 text-white font-bold rounded-md py-2 px-4">
+            {{ errorMessage.error }}
           </div>
           <div>
             <form @submit.prevent="submitForm" class="space-y-6">

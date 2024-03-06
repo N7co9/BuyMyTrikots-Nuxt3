@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 export default function useAuthentication() {
     const email = ref('');
@@ -8,35 +8,30 @@ export default function useAuthentication() {
     const submitForm = async () => {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 username: email.value,
                 password: password.value,
             }),
         };
+        const response = await fetch('http://localhost:8000/api/login', requestOptions);
 
-        try {
-            const response = await fetch('http://localhost:8000/api/login', requestOptions);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                new Error(errorData.message || 'Failed to login');
-            }
-
-            const data = await response.json();
-            if (!data.token) {
-                new Error('Token not found in response');
-            }
-
-            const tokenCookie = useCookie('token', {
-                maxAge: 3600,
-                secure: true,
-                sameSite: true,
-            })
-            tokenCookie.value = data.token
-        } catch (error) {
-            errorMessage.value = 'An error occurred. Please try again.';
+        if (!response.ok) {
+            errorMessage.value = await response.json();
+            new Error(errorMessage.value || 'Failed to login');
         }
+
+        const data = await response.json();
+        if (!data.token) {
+            new Error('Token not found in response');
+        }
+
+        const tokenCookie = useCookie('token', {
+            maxAge: 3600,
+            secure: true,
+            sameSite: true,
+        })
+        tokenCookie.value = data.token
     };
 
     return {

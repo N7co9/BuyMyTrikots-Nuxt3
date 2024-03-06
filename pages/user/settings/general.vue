@@ -7,7 +7,7 @@ import {
   XMarkIcon
 } from '@heroicons/vue/24/outline'
 import {HomeIcon} from "@heroicons/vue/24/outline/index.js";
-import useUpdateUsername from '~/composables/settings/useUpdateUsername.ts'
+import useUpdateUsername from '~/composables/settings/username/useUpdateUsername.ts'
 import useUpdateEmail from '~/composables/settings/email/useUpdateEmail.ts'
 import {useState} from "nuxt/app";
 import {ref} from 'vue';
@@ -37,8 +37,7 @@ const closeUsernameModal = () => {
 };
 const saveUsername = async () => {
   await submitUsernameForm()
-  if(usernameResponseMessage.value.response.type === 'OK')
-  {
+  if (usernameResponseMessage.value.response.type === 'OK') {
     await refreshPage()
   }
 };
@@ -178,7 +177,8 @@ const secondaryNavigation = [
 
   <!---- MODALS GO HERE BRR !-->
 
-  <div v-if="showUsernameModal" class="fixed inset-0 overflow-y-auto flex justify-center items-center bg-gray-900 bg-opacity-50">
+  <div v-if="showUsernameModal"
+       class="fixed inset-0 overflow-y-auto flex justify-center items-center bg-gray-900 bg-opacity-50">
     <div class="bg-white rounded-lg overflow-hidden shadow-xl max-w-lg w-full">
       <div class="p-8">
         <div class="justify-center flex font-bold">
@@ -187,14 +187,20 @@ const secondaryNavigation = [
         <div class="border mt-4">
         </div>
         <div class="justify-center flex drop-shadow-2xl">
-          <img src="https://media0.giphy.com/media/pkKAGYc7AWxwYiqidq/giphy.gif?cid=ecf05e47rjc0yuf6dp4g1zd4jqn8xq3s0d0urnp7dcvualc0&ep=v1_gifs_related&rid=giphy.gif&ct=s" alt="">
+          <img
+              src="https://media0.giphy.com/media/pkKAGYc7AWxwYiqidq/giphy.gif?cid=ecf05e47rjc0yuf6dp4g1zd4jqn8xq3s0d0urnp7dcvualc0&ep=v1_gifs_related&rid=giphy.gif&ct=s"
+              alt="">
         </div>
         <form @submit.prevent="saveUsername">
-          <div class="mb-6">
-            <input type="text" v-model="newUsername"  placeholder="MyNewUsername123" required
-                   class="block w-full p-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+          <div class="mb-6 relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <span class="text-gray-500">👤</span>
+            </span>
+            <input type="text" v-model="newUsername" placeholder="MyNewUsername123" required
+                   class="block w-full p-3 pl-10 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
           </div>
-          <div v-if="usernameResponseMessage?.response?.type === 'Exception'" class="text-red-500 font-bold text-center mb-6">
+          <div v-if="usernameResponseMessage?.response?.type === 'Exception'"
+               class="text-red-500 font-bold text-center mb-6">
             <p>{{ usernameResponseMessage.response.message }}</p>
           </div>
           <div v-if="usernameResponseMessage?.response?.type === 'OK'" class="text-green-500 font-bold">
@@ -219,7 +225,8 @@ const secondaryNavigation = [
 
   <!---- EMAIL MODAL WHOhAAA !-->
 
-  <div v-if="showEmailModal" class="fixed inset-0 overflow-y-auto flex justify-center items-center bg-gray-900 bg-opacity-50">
+  <div v-if="showEmailModal"
+       class="fixed inset-0 overflow-y-auto flex justify-center items-center bg-gray-900 bg-opacity-50">
     <div class="bg-white rounded-lg overflow-hidden shadow-xl max-w-lg w-full">
       <div class="p-8">
         <div class="justify-center flex font-bold">
@@ -228,12 +235,18 @@ const secondaryNavigation = [
         <div class="border mt-4">
         </div>
         <div class="justify-center flex drop-shadow-2xl">
-          <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGg5NmdtdzV2NjNycnVza2R2OXF6dGluczRtbTdsb2phMWV1dnBrZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/sUvXqhA9nukbIM0MyO/giphy.gif" alt="">
+          <img
+              src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGg5NmdtdzV2NjNycnVza2R2OXF6dGluczRtbTdsb2phMWV1dnBrZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/sUvXqhA9nukbIM0MyO/giphy.gif"
+              alt="">
         </div>
         <form @submit.prevent="saveEmail">
-          <div class="mb-6">
+          <div class="mb-6 relative"> <!-- relative position for the icon wrapper -->
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+          <!-- Replace this span with your actual icon -->
+          <span class="text-gray-500">📧</span>
+        </span>
             <input type="email" autocomplete="email" v-model="newEmail" placeholder="John@Doe.com" required
-                   class="block w-full p-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                   class="block w-full p-3 pl-10 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
           </div>
           <div v-if="emailResponse.sent === false" class="text-red-500 font-bold text-center mb-6">
             <p>An error occurred.</p>

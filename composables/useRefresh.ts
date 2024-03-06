@@ -1,14 +1,9 @@
-import {reloadNuxtApp} from "nuxt/app";
+import { reloadNuxtApp } from "nuxt/app";
 
-export async function refreshPage()
-{
+export async function refreshPage(path: string) {
     await new Promise(resolve => setTimeout(resolve, 2500));
-    reloadNuxtApp(
-        {
-            path: '/user/settings/general',
-            ttl: 1000,
-        }
-    )
-
-
+    reloadNuxtApp({
+        path: path,
+        ttl: 1000,
+    });
 }

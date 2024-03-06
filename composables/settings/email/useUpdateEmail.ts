@@ -1,11 +1,11 @@
-import { ref } from 'vue';
+import {ref} from 'vue';
+import {useState} from "nuxt/app";
 
 export default function useUpdateEmail() {
+    const emailState = useState('tempMail', () => null);
     const newEmail = ref('');
     const emailResponse = ref('');
-    const sent = ref('');
     const accessToken = useCookie('token').value;
-
     const submitEmailForm = async () => {
         try {
             const response = await fetch('http://localhost:8000/settings/update-email', {
@@ -19,20 +19,23 @@ export default function useUpdateEmail() {
                 }),
             });
             emailResponse.value = await response.json();
-            sent.value = emailResponse.value.sent
+            if(emailResponse.value)
+            {
+                // @ts-ignore
+                emailState.value = emailResponse.value.tempMail;
+            }
 
             if (!response.ok) {
-                throw new Error('Failed to update email');
+                new Error('Failed to update email');
             }
         } catch (error) {
-            emailResponseMessage.value = 'Error';
+            emailResponse.value = 'Error';
         }
     };
 
     return {
         newEmail,
         emailResponse,
-        sent,
         submitEmailForm,
     };
 }

@@ -22,16 +22,6 @@ export default function useUpdateUsername() {
         } catch (error) {
             usernameResponseMessage.value = 'An error occurred. Please try again.';
         }
-
-        if (usernameResponseMessage.value.response.type === 'OK') {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            reloadNuxtApp(
-                {
-                    path: '/user/settings/general',
-                    ttl: 1000,
-                }
-            )
-        }
     };
 
     return {

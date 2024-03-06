@@ -8,7 +8,7 @@ import {
 } from '@heroicons/vue/24/outline'
 import {HomeIcon} from "@heroicons/vue/24/outline/index.js";
 import useUpdateUsername from '~/composables/settings/useUpdateUsername.ts'
-import useUpdateEmail from '~/composables/settings/useUpdateEmail.ts'
+import useUpdateEmail from '~/composables/settings/email/useUpdateEmail.ts'
 import {useState} from "nuxt/app";
 import {ref} from 'vue';
 
@@ -17,7 +17,9 @@ const showUsernameModal = ref(false);
 const showEmailModal = ref(false);
 
 const {newUsername, usernameResponseMessage, submitUsernameForm} = useUpdateUsername()
-const {newEmail, sent, emailResponse, submitEmailForm} = useUpdateEmail()
+const {newEmail, emailResponse, submitEmailForm} = useUpdateEmail()
+import {refreshPage} from "~/composables/useRefresh.ts";
+
 
 const closeAlert = () => {
   showAlert.value = false;
@@ -33,8 +35,12 @@ const openUsernameModal = () => {
 const closeUsernameModal = () => {
   showUsernameModal.value = false;
 };
-const saveUsername = () => {
-  submitUsernameForm()
+const saveUsername = async () => {
+  await submitUsernameForm()
+  if(usernameResponseMessage.value.response.type === 'OK')
+  {
+    await refreshPage()
+  }
 };
 
 const openEmailModal = () => {
@@ -47,7 +53,7 @@ const closeEmailModal = () => {
 const saveEmail = async () => {
   await submitEmailForm();
   setTimeout(() => {
-    if (sent.value) {
+    if (emailResponse.value.sent) {
       openAlert();
       closeEmailModal();
     }
@@ -172,44 +178,40 @@ const secondaryNavigation = [
 
   <!---- MODALS GO HERE BRR !-->
 
-  <div v-if="showUsernameModal" class="fixed inset-0 overflow-y-auto flex justify-center">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-      </div>
-      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-      <div
-          class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full py-8 px-32">
-        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-          <div class="sm:flex sm:items-start">
-            <div class="mt-3 text-center sm:mt-0 sm:text-left">
-              <div class="mt-2">
-                <form>
-                  <div class="mb-4 flex justify-center">
-                    <input type="text" v-model="newUsername" placeholder="New Username" required
-                           class="mt-1 text-center focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                  </div>
-                </form>
-              </div>
-              <div class="justify-center flex">
-                <p v-if="usernameResponseMessage?.response?.type === 'OK'" class="text-green-500 font-bold">
-                  {{ usernameResponseMessage.response.message }}</p>
-                <p v-else-if="usernameResponseMessage?.response?.type === 'Exception'"
-                   class="text-red-500 font-bold">{{ usernameResponseMessage.response.message }}</p>
-              </div>
-            </div>
+  <div v-if="showUsernameModal" class="fixed inset-0 overflow-y-auto flex justify-center items-center bg-gray-900 bg-opacity-50">
+    <div class="bg-white rounded-lg overflow-hidden shadow-xl max-w-lg w-full">
+      <div class="p-8">
+        <div class="justify-center flex font-bold">
+          <h1>Update your Username</h1>
+        </div>
+        <div class="border mt-4">
+        </div>
+        <div class="justify-center flex drop-shadow-2xl">
+          <img src="https://media0.giphy.com/media/pkKAGYc7AWxwYiqidq/giphy.gif?cid=ecf05e47rjc0yuf6dp4g1zd4jqn8xq3s0d0urnp7dcvualc0&ep=v1_gifs_related&rid=giphy.gif&ct=s" alt="">
+        </div>
+        <form @submit.prevent="saveUsername">
+          <div class="mb-6">
+            <input type="text" v-model="newUsername"  placeholder="MyNewUsername123" required
+                   class="block w-full p-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
           </div>
-          <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse flex justify-center">
+          <div v-if="usernameResponseMessage?.response?.type === 'Exception'" class="text-red-500 font-bold text-center mb-6">
+            <p>{{ usernameResponseMessage.response.message }}</p>
+          </div>
+          <div v-if="usernameResponseMessage?.response?.type === 'OK'" class="text-green-500 font-bold">
+            <p>
+              {{ usernameResponseMessage.response.message }}</p>
+          </div>
+          <div class="flex justify-center">
             <button type="button" @click="saveUsername"
-                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+                    class="w-32 py-3 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Save
             </button>
             <button type="button" @click="closeUsernameModal"
-                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                    class="ml-4 w-32 py-3 px-4 border border-gray-300 text-gray-700 font-semibold rounded-md bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Cancel
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -217,44 +219,40 @@ const secondaryNavigation = [
 
   <!---- EMAIL MODAL WHOhAAA !-->
 
-  <div v-if="showEmailModal" class="fixed inset-0 overflow-y-auto flex justify-center">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-      </div>
-      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-      <div
-          class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full py-8 px-32">
-        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-          <div class="sm:flex sm:items-start">
-            <div class="mt-3 text-center sm:mt-0 sm:text-left">
-              <div class="mt-2">
-                <form>
-                  <div class="mb-4 flex justify-center">
-                    <input type="email" autocomplete="email" v-model="newEmail" placeholder="New Email" required
-                           class="mt-1 text-center focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                  </div>
-                </form>
-              </div>
-            </div>
+  <div v-if="showEmailModal" class="fixed inset-0 overflow-y-auto flex justify-center items-center bg-gray-900 bg-opacity-50">
+    <div class="bg-white rounded-lg overflow-hidden shadow-xl max-w-lg w-full">
+      <div class="p-8">
+        <div class="justify-center flex font-bold">
+          <h1>Update your E-Mail Address</h1>
+        </div>
+        <div class="border mt-4">
+        </div>
+        <div class="justify-center flex drop-shadow-2xl">
+          <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGg5NmdtdzV2NjNycnVza2R2OXF6dGluczRtbTdsb2phMWV1dnBrZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/sUvXqhA9nukbIM0MyO/giphy.gif" alt="">
+        </div>
+        <form @submit.prevent="saveEmail">
+          <div class="mb-6">
+            <input type="email" autocomplete="email" v-model="newEmail" placeholder="John@Doe.com" required
+                   class="block w-full p-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
           </div>
-          <div v-if="emailResponse.sent === false" class="text-red-500 font-bold justify-center flex">
-            <p>An Error occurred.</p>
+          <div v-if="emailResponse.sent === false" class="text-red-500 font-bold text-center mb-6">
+            <p>An error occurred.</p>
           </div>
-          <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse flex justify-center">
-            <button type="button" @click="saveEmail"
-                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+          <div class="flex justify-center">
+            <button type="submit" :disabled="loading"
+                    class="w-32 py-3 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Save
             </button>
             <button type="button" @click="closeEmailModal"
-                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                    class="ml-4 w-32 py-3 px-4 border border-gray-300 text-gray-700 font-semibold rounded-md bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Cancel
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
+
 
   <!---- ALLLEEERRRTTT !-->
 

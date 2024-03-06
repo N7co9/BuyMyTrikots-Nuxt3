@@ -3,8 +3,9 @@
     <AppHeader />
     <AppHero />
     <NuxtPage />
-    <AppFooter />
+    <AppFooterFixed />
   </div>
 </template>
 <script setup lang="ts">
+import AppFooterFixed from "~/components/footer/AppFooterFixed.vue";
 </script>

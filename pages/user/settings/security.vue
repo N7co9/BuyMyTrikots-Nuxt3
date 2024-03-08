@@ -14,7 +14,7 @@ import {
 import useUpdatePassword from "~/composables/settings/password/useUpdatePassword.ts";
 import {ref} from "vue";
 
-import {refreshPage} from "~/composables/useRefresh.ts";
+import {refreshPage} from "~/composables/refresh/useSlowRefresh.ts";
 
 
 const {password, newPassword, passwordResponseMessage, submitPasswordForm} = useUpdatePassword()

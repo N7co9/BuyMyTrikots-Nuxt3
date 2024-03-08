@@ -1,4 +1,4 @@
-import { reloadNuxtApp } from "nuxt/app";
+import {reloadNuxtApp} from "nuxt/app";
 
 export async function refreshPage(path: string) {
     await new Promise(resolve => setTimeout(resolve, 2500));

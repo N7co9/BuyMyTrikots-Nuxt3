@@ -2,9 +2,10 @@
   <div>
     <AppHeader />
     <NuxtPage />
-    <AppFooterRelative />
+    <AppFooterBrowse />
   </div>
 </template>
 <script setup lang="ts">
-import AppFooterRelative from "~/components/footer/AppFooterRelative.vue";
+import AppFooterBrowse from "~/components/footer/AppFooterBrowse.vue";
+import AppHeader from "~/components/header/AppHeader.vue";
 </script>

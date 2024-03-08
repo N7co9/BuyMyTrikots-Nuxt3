@@ -8,7 +8,6 @@ definePageMeta({
 const user = useState('user').value
 </script>
 
-<AppHeader/>
 <template>
   <div>
     <p>

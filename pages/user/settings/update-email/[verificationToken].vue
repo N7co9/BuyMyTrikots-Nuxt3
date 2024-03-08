@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import useVerifyToken from "~/composables/settings/email/useVerifyToken";
-import {refreshPage} from "~/composables/useRefresh";
+import {refreshPage} from "~/composables/refresh/useSlowRefresh";
 
 const { verificationToken, verifyResponse, verifyToken } = useVerifyToken()
 

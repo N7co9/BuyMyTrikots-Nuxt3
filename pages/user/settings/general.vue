@@ -18,7 +18,7 @@ const showEmailModal = ref(false);
 
 const {newUsername, usernameResponseMessage, submitUsernameForm} = useUpdateUsername()
 const {newEmail, emailResponse, submitEmailForm} = useUpdateEmail()
-import {refreshPage} from "~/composables/useRefresh.ts";
+import {refreshPage} from "~/composables/refresh/useSlowRefresh.ts";
 
 
 const closeAlert = () => {

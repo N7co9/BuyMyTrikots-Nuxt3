@@ -4,7 +4,7 @@ export default function useFetchOrderInformation() {
     const accessToken = useCookie('token').value;
     const orderFetchingLoading = ref(false)
 
-    const fetchOrderInformation = async () => {
+    const fetchOrderInformation = async (deliveryMethod : string) => {
         try {
             orderFetchingLoading.value = true;
             const response = await fetch(`http://localhost:8000/order/billing/information`, {
@@ -12,7 +12,9 @@ export default function useFetchOrderInformation() {
                 headers: {
                     'Authorization': accessToken ?? '',
                     'Content-Type': 'application/json',
-                },
+                }, body: JSON.stringify({
+                    deliveryMethod : deliveryMethod
+                }),
             });
             orderInformationResponse.value = await response.json();
         } catch (error) {

@@ -1,31 +1,44 @@
 <script setup lang="ts">
+import {useFetchBrowseData} from "~/composables/browse/useFetchBrowseData";
 
 definePageMeta({
   layout: 'browse-layout'
 })
 import {StarIcon} from '@heroicons/vue/20/solid'
-import {fetchData} from "~/services/backendDataApi";
 
 const cookie = useCookie('token');
-const {items} = await fetchData();
+const items = ref([]);
+const clubName = ref(null);
 
-items.forEach(item => {
-  item.reviewCount = Math.floor(Math.random() * 15) + 1; // Random number between 1 and 15
-  item.rating = Math.floor(Math.random() * 3) + 3; // Random number between 3 and 5
-});
-
-import useAddToBag from "~/composables/bag/useAddToBag";
-const {addToBag, loading} = useAddToBag();
-
-
-function extractClubName(items: any[]): string | null {
+function extractClubName(items) {
   if (items.length > 0) {
     return items[0].clubName;
   }
   return null;
 }
 
-const clubName: string | null = extractClubName(items);
+const loadItems = async () => {
+  const fetchedItems = await useFetchBrowseData();
+
+  if (fetchedItems) {
+    fetchedItems.forEach(item => {
+      item.reviewCount = Math.floor(Math.random() * 15) + 1;
+      item.rating = Math.floor(Math.random() * 3) + 3;
+    });
+    items.value = fetchedItems;
+    clubName.value = extractClubName(fetchedItems);
+  } else {
+    console.error('No items were fetched');
+  }
+};
+
+onMounted(() => {
+  loadItems();
+});
+
+import useAddToBag from "~/composables/bag/useAddToBag";
+const {addToBag, loading} = useAddToBag();
+
 import { ref } from 'vue'
 import {
   Dialog,
@@ -271,13 +284,13 @@ const mobileFiltersOpen = ref(false)
                     </div>
                   </div>
                 </div>
-              </div>
+            </div>
             </div>
           </section>
         </main>
       </div>
-    </div>
 
+            </div>
   <div v-if="loading"
        class="fixed inset-0 overflow-y-auto flex justify-center items-center bg-gray-900 bg-opacity-50">
     <div role="status">

@@ -17,18 +17,17 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 'Authorization': accessToken,
             },
         });
-
         if (response.ok) {
             const data = await response.json();
-            if (data.valid) {
-                userState.value = data.user;
+            if (data.success) {
+                userState.value = data.content;
             } else {
                 console.error('Token is invalid');
             }
         } else {
             console.error('Error verifying access token:', response.statusText);
         }
-    } catch (error : any) {
+    } catch (error: any) {
         console.error('Network error:', error.message);
     }
 });

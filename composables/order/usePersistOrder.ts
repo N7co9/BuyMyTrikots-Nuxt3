@@ -27,7 +27,7 @@ export default function usePersistOrder() {
             })
             persistOrderResponseMessage.value = await response.json();
             // @ts-ignore
-            if(persistOrderResponseMessage.value.response === 'OK')
+            if(persistOrderResponseMessage.value.success)
             {
                 try {
                     const responseCheckout = await fetch('http://localhost:8000/order/payment/', {

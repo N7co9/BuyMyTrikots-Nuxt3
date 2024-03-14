@@ -39,13 +39,13 @@ watch(savedInformation, async (newValue, oldValue) => {
 
 const useInformation = async () => {
   if (savedInformation.value === true) {
-    userDetails.value.firstName = orderInformationResponse.value.billingInformation.firstName
-    userDetails.value.lastName = orderInformationResponse.value.billingInformation.lastName
-    userDetails.value.address = orderInformationResponse.value.billingInformation.Address
-    userDetails.value.city = orderInformationResponse.value.billingInformation.City
-    userDetails.value.region = orderInformationResponse.value.billingInformation.Region
-    userDetails.value.postalCode = orderInformationResponse.value.billingInformation.zipCode
-    userDetails.value.phoneNumber = orderInformationResponse.value.billingInformation.phoneNumber
+    userDetails.value.firstName = orderInformationResponse.value.content.billingInformation.firstName
+    userDetails.value.lastName = orderInformationResponse.value.content.billingInformation.lastName
+    userDetails.value.address = orderInformationResponse.value.content.billingInformation.Address
+    userDetails.value.city = orderInformationResponse.value.content.billingInformation.City
+    userDetails.value.region = orderInformationResponse.value.content.billingInformation.Region
+    userDetails.value.postalCode = orderInformationResponse.value.content.billingInformation.zipCode
+    userDetails.value.phoneNumber = orderInformationResponse.value.content.billingInformation.phoneNumber
   }
   else{
     userDetails.value.firstName = ''
@@ -68,7 +68,7 @@ const executePersistOrder = async () => {
       userDetails.value.address,
       selectedDeliveryMethod.value.title,
       selectedDeliveryMethod.value.price,
-      orderInformationResponse.value.cartInformation.expenses.total,
+      orderInformationResponse.value.content.cartInformation.expenses.total,
       userDetails.value.phoneNumber,
       userDetails.value.postalCode,
       userDetails.value.region,
@@ -184,9 +184,9 @@ watch(selectedDeliveryMethod, async (newValue, oldValue) => {
                 <div>
                   <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
                   <div class="mt-1">
-                    <input v-if="!persistOrderResponseMessage.firstName" v-model="userDetails.firstName" type="text" id="first-name" name="first-name" autocomplete="given-name"
+                    <input v-if="!persistOrderResponseMessage?.content?.firstName" v-model="userDetails.firstName" type="text" id="first-name" name="first-name" autocomplete="given-name"
                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
-                    <input v-else-if="persistOrderResponseMessage.firstName" v-model="userDetails.firstName" type="text" id="first-name" name="first-name" autocomplete="given-name"
+                    <input v-else-if="persistOrderResponseMessage?.content?.firstName" v-model="userDetails.firstName" type="text" id="first-name" name="first-name" autocomplete="given-name"
                            class="block w-full rounded-md border-rose-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
                   </div>
                 </div>
@@ -194,9 +194,9 @@ watch(selectedDeliveryMethod, async (newValue, oldValue) => {
                 <div>
                   <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
                   <div class="mt-1">
-                    <input v-if="!persistOrderResponseMessage.lastName" v-model="userDetails.lastName" type="text" id="last-name" name="last-name" autocomplete="family-name"
+                    <input v-if="!persistOrderResponseMessage?.content?.lastName" v-model="userDetails.lastName" type="text" id="last-name" name="last-name" autocomplete="family-name"
                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
-                    <input v-else-if="persistOrderResponseMessage.lastName" v-model="userDetails.lastName" type="text" id="last-name" name="last-name" autocomplete="family-name"
+                    <input v-else-if="persistOrderResponseMessage?.content?.lastName" v-model="userDetails.lastName" type="text" id="last-name" name="last-name" autocomplete="family-name"
                            class="block w-full rounded-md border-rose-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
                   </div>
                 </div>
@@ -204,9 +204,9 @@ watch(selectedDeliveryMethod, async (newValue, oldValue) => {
                 <div class="sm:col-span-2">
                   <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
                   <div class="mt-1">
-                    <input v-if="!persistOrderResponseMessage.address" v-model="userDetails.address" type="text" name="address" id="address" autocomplete="street-address"
+                    <input v-if="!persistOrderResponseMessage?.content?.address" v-model="userDetails.address" type="text" name="address" id="address" autocomplete="street-address"
                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
-                    <input v-else-if="persistOrderResponseMessage.address" v-model="userDetails.address" type="text" name="address" id="address" autocomplete="street-address"
+                    <input v-else-if="persistOrderResponseMessage?.content?.address" v-model="userDetails.address" type="text" name="address" id="address" autocomplete="street-address"
                            class="block w-full rounded-md border-rose-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
                   </div>
                 </div>
@@ -214,9 +214,9 @@ watch(selectedDeliveryMethod, async (newValue, oldValue) => {
                 <div>
                   <label for="city" class="block text-sm font-medium text-gray-700">City</label>
                   <div class="mt-1">
-                    <input v-if="!persistOrderResponseMessage.city" v-model="userDetails.city" type="text" name="city" id="city" autocomplete="address-level2"
+                    <input v-if="!persistOrderResponseMessage?.content?.city" v-model="userDetails.city" type="text" name="city" id="city" autocomplete="address-level2"
                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
-                    <input v-else-if="persistOrderResponseMessage.city" v-model="userDetails.city" type="text" name="city" id="city" autocomplete="address-level2"
+                    <input v-else-if="persistOrderResponseMessage?.content?.city" v-model="userDetails.city" type="text" name="city" id="city" autocomplete="address-level2"
                            class="block w-full rounded-md border-rose-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
                   </div>
                 </div>
@@ -234,9 +234,9 @@ watch(selectedDeliveryMethod, async (newValue, oldValue) => {
                 <div>
                   <label for="region" class="block text-sm font-medium text-gray-700">State / Province</label>
                   <div class="mt-1">
-                    <input v-if="!persistOrderResponseMessage.region" v-model="userDetails.region" type="text" name="region" id="region" autocomplete="address-level1"
+                    <input v-if="!persistOrderResponseMessage?.content?.region" v-model="userDetails.region" type="text" name="region" id="region" autocomplete="address-level1"
                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
-                    <input v-if="persistOrderResponseMessage.region" v-model="userDetails.region" type="text" name="region" id="region" autocomplete="address-level1"
+                    <input v-if="persistOrderResponseMessage?.content?.region" v-model="userDetails.region" type="text" name="region" id="region" autocomplete="address-level1"
                            class="block w-full rounded-md border-rose-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
                   </div>
                 </div>
@@ -244,9 +244,9 @@ watch(selectedDeliveryMethod, async (newValue, oldValue) => {
                 <div>
                   <label for="postal-code" class="block text-sm font-medium text-gray-700">Postal code</label>
                   <div class="mt-1">
-                    <input v-if="!persistOrderResponseMessage.zip" v-model="userDetails.postalCode" type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
+                    <input v-if="!persistOrderResponseMessage?.content?.zip" v-model="userDetails.postalCode" type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
-                    <input v-else-if="persistOrderResponseMessage.zip" v-model="userDetails.postalCode" type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
+                    <input v-else-if="persistOrderResponseMessage?.content?.zip" v-model="userDetails.postalCode" type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
                            class="block w-full rounded-md border-rose-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
                   </div>
                 </div>
@@ -254,9 +254,9 @@ watch(selectedDeliveryMethod, async (newValue, oldValue) => {
                 <div class="sm:col-span-2">
                   <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
                   <div class="mt-1">
-                    <input v-if="!persistOrderResponseMessage.phoneNumber" v-model="userDetails.phoneNumber" type="text" name="phone" id="phone" autocomplete="tel"
+                    <input v-if="!persistOrderResponseMessage?.content?.phoneNumber" v-model="userDetails.phoneNumber" type="text" name="phone" id="phone" autocomplete="tel"
                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
-                    <input v-else-if="persistOrderResponseMessage.phoneNumber" v-model="userDetails.phoneNumber" type="text" name="phone" id="phone" autocomplete="tel"
+                    <input v-else-if="persistOrderResponseMessage?.content?.phoneNumber" v-model="userDetails.phoneNumber" type="text" name="phone" id="phone" autocomplete="tel"
                            class="block w-full rounded-md border-rose-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
                   </div>
                 </div>
@@ -303,7 +303,7 @@ watch(selectedDeliveryMethod, async (newValue, oldValue) => {
             <div class="mt-4 rounded-lg border border-gray-200 bg-white shadow-sm">
               <h3 class="sr-only">Items in your cart</h3>
               <ul role="list" class="divide-y divide-gray-200">
-                <li v-for="product in orderInformationResponse?.cartInformation?.cart" :key="product.id"
+                <li v-for="product in orderInformationResponse?.content?.cartInformation?.cart" :key="product.id"
                     class="flex px-4 py-6 sm:px-6">
                   <div class="flex-shrink-0">
                     <img :src="product.thumbnail" :alt="product.imageAlt" class="w-20 rounded-md"/>
@@ -355,25 +355,25 @@ watch(selectedDeliveryMethod, async (newValue, oldValue) => {
                 <div class="flex items-center justify-between">
                   <dt class="text-sm">Subtotal</dt>
                   <dd class="text-sm font-medium text-gray-900">$
-                    {{ orderInformationResponse?.cartInformation?.expenses?.subTotal.toFixed(2) }}
+                    {{ orderInformationResponse?.content?.cartInformation?.expenses?.subTotal.toFixed(2) }}
                   </dd>
                 </div>
                 <div class="flex items-center justify-between">
                   <dt class="text-sm">Shipping</dt>
                   <dd class="text-sm font-medium text-gray-900">$
-                    {{ orderInformationResponse?.cartInformation?.expenses?.shipping.toFixed(2) }}
+                    {{ orderInformationResponse?.content?.cartInformation?.expenses?.shipping.toFixed(2) }}
                   </dd>
                 </div>
                 <div class="flex items-center justify-between">
                   <dt class="text-sm">Taxes</dt>
                   <dd class="text-sm font-medium text-gray-900">$
-                    {{ orderInformationResponse?.cartInformation?.expenses?.tax.toFixed(2) }}
+                    {{ orderInformationResponse?.content?.cartInformation?.expenses?.tax.toFixed(2) }}
                   </dd>
                 </div>
                 <div class="flex items-center justify-between border-t border-gray-200 pt-6">
                   <dt class="text-base font-medium">Total</dt>
                   <dd class="text-base font-medium text-gray-900">$
-                    {{ orderInformationResponse?.cartInformation?.expenses?.total.toFixed(2) }}
+                    {{ orderInformationResponse?.content?.cartInformation?.expenses?.total.toFixed(2) }}
                   </dd>
                 </div>
               </dl>

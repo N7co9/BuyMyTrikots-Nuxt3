@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const accessToken = useCookie('token').value;
 
     if (!accessToken) {
-        console.error('Access token not provided');
+        //console.error('Access token not provided');
         return;
     }
 

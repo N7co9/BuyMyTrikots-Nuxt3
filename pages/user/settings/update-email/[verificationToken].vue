@@ -10,9 +10,9 @@ const isLoading = ref(true);
 const verify = async () => {
   await verifyToken();
   setTimeout(() => {
-    if (verifyResponse.value.response.type === 'OK') {
+    if (verifyResponse.value.response.success) {
       isLoading.value = false;
-      refreshPage()
+      refreshPage('/user/settings/general')
     }
   }, 2000);
 };

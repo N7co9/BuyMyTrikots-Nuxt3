@@ -37,7 +37,7 @@ const closeUsernameModal = () => {
 };
 const saveUsername = async () => {
   await submitUsernameForm()
-  if (usernameResponseMessage.value.response.type === 'OK') {
+  if (usernameResponseMessage.value.success) {
     await refreshPage()
   }
 };
@@ -199,13 +199,12 @@ const secondaryNavigation = [
             <input type="text" v-model="newUsername" placeholder="MyNewUsername123" required
                    class="block w-full p-3 pl-10 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
           </div>
-          <div v-if="usernameResponseMessage?.response?.type === 'Exception'"
-               class="text-red-500 font-bold text-center mb-6">
-            <p>{{ usernameResponseMessage.response.message }}</p>
+          <div v-if="!usernameResponseMessage?.success"
+               class="text-red-500 font-bold text-center mb-6 flex justify-center p-2">
+            <p>{{ usernameResponseMessage?.content }}</p>
           </div>
-          <div v-if="usernameResponseMessage?.response?.type === 'OK'" class="text-green-500 font-bold">
-            <p>
-              {{ usernameResponseMessage.response.message }}</p>
+          <div v-if="usernameResponseMessage?.success" class="justify-center flex text-green-500 font-bold p-2">
+            <p>{{ usernameResponseMessage?.content }}</p>
           </div>
           <div class="flex justify-center">
             <button type="button" @click="saveUsername"

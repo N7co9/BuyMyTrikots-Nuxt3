@@ -1,9 +1,13 @@
 import {ref} from 'vue';
+import {useRouter} from "vue-router";
 
 export default function useAuthentication() {
+    const router = useRouter();
     const email = ref('');
     const password = ref('');
-    const errorMessage = ref('');
+    const authenticationLoading = ref(false)
+    const authenticationResponse = ref();
+
 
     const submitForm = async () => {
         const requestOptions = {
@@ -14,30 +18,38 @@ export default function useAuthentication() {
                 password: password.value,
             }),
         };
-        const response = await fetch('http://localhost:8000/api/login', requestOptions);
+        try {
+            authenticationLoading.value = true;
 
-        if (!response.ok) {
-            errorMessage.value = await response.json();
-            new Error(errorMessage.value || 'Failed to login');
+            const response = await fetch('http://localhost:8000/api/login', requestOptions);
+            const data = await response.json();
+
+            const tokenCookie = useCookie('token', {
+                maxAge: 3600,
+                secure: true,
+                sameSite: true,
+            })
+            tokenCookie.value = data.token
+
+            if (!response.ok)
+            {
+                authenticationResponse.value = 'An Exception occurred in Authentication';
+            }
+            else if (response.ok)
+            {
+                await router.push('/')
+            }
         }
-
-        const data = await response.json();
-        if (!data.token) {
-            new Error('Token not found in response');
+        finally {
+            authenticationLoading.value = false;
         }
-
-        const tokenCookie = useCookie('token', {
-            maxAge: 3600,
-            secure: true,
-            sameSite: true,
-        })
-        tokenCookie.value = data.token
     };
 
     return {
+        authenticationLoading,
         email,
         password,
-        errorMessage,
+        authenticationResponse,
         submitForm,
     };
 }

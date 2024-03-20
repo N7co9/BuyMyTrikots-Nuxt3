@@ -23,7 +23,7 @@ export default function useUpdatePassword() {
             passwordResponseMessage.value = await response.json();
 
             // @ts-ignore
-            if(passwordResponseMessage.value.response.type === 'OK')
+            if(passwordResponseMessage.value.response.success)
             {
                 authCookie.value = null
             }

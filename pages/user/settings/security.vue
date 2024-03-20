@@ -24,12 +24,12 @@ const showExceptionAlert = ref(false);
 
 const submitPassword= async () => {
   await submitPasswordForm()
-  if (passwordResponseMessage.value.response.type === 'OK') {
+  if (passwordResponseMessage.value.response.success) {
     showExceptionAlert.value = false;
     showSuccessAlert.value = true;
     await refreshPage('/user/login')
   }
-  else if(passwordResponseMessage.value.response.type === 'Exception')
+  else if(!passwordResponseMessage.value.response.success)
   {
     showSuccessAlert.value = false;
     showExceptionAlert.value = true;
@@ -138,7 +138,7 @@ const secondaryNavigation = [
       <div class="ml-3">
         <h3 class="text-sm font-medium text-yellow-800">Attention needed</h3>
         <div class="mt-2 text-sm text-yellow-700">
-          <p>{{passwordResponseMessage.response.message}}</p>
+          <p>{{passwordResponseMessage.response.content}}</p>
         </div>
       </div>
     </div>

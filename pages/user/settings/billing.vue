@@ -2,12 +2,9 @@
 definePageMeta({
   layout: 'settings-layout'
 })
-import {
-  HomeIcon,
-  CreditCardIcon,
-  FingerPrintIcon,
-  UserCircleIcon,
-} from '@heroicons/vue/24/outline'
+import {CreditCardIcon, FingerPrintIcon, HomeIcon, UserCircleIcon,} from '@heroicons/vue/24/outline'
+import useUpdateBilling from "~/composables/settings/billing/useUpdateBilling.ts";
+import useFetchBilling from "~/composables/settings/billing/useGetBillingAddress.ts";
 
 const secondaryNavigation = [
   {name: 'General', href: '/user/settings/general', icon: UserCircleIcon, current: false},
@@ -16,9 +13,6 @@ const secondaryNavigation = [
   {name: 'Home', href: '/', icon: HomeIcon, current: false},
 
 ]
-
-import useUpdateBilling from "~/composables/settings/billing/useUpdateBilling.ts";
-import useFetchBilling from "~/composables/settings/billing/useGetBillingAddress.ts";
 
 
 const showBillingModal = ref(false);
@@ -103,7 +97,6 @@ const showExBilling = async () => {
 
     <main class="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
 
-
       <form @submit.prevent="submitForm">
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
@@ -113,12 +106,12 @@ const showExBilling = async () => {
             <div class="sm:col-span-3">
               <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
               <div class="mt-2">
-                <input v-if="!billingResponseMessage?.response?.firstName" v-model="firstName" type="text"
+                <input v-if="!billingResponseMessage?.content?.firstName" v-model="firstName" type="text"
                        name="first-name" id="first-name" autocomplete="given-name"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                        placeholder="John"
                 />
-                <input v-else-if="billingResponseMessage?.response?.firstName" v-model="firstName" type="text"
+                <input v-else-if="billingResponseMessage?.content?.firstName" v-model="firstName" type="text"
                        name="first-name" id="first-name" autocomplete="given-name"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                        placeholder="John"
@@ -129,12 +122,12 @@ const showExBilling = async () => {
             <div class="sm:col-span-3">
               <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
               <div class="mt-2">
-                <input v-if="!billingResponseMessage?.response?.lastName" v-model="lastName" type="text"
+                <input v-if="!billingResponseMessage?.content?.lastName" v-model="lastName" type="text"
                        name="last-name" id="last-name" autocomplete="given-name"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                        placeholder="Doe"
                 />
-                <input v-else-if="billingResponseMessage?.response?.lastName" v-model="lastName" type="text"
+                <input v-else-if="billingResponseMessage?.content?.lastName" v-model="lastName" type="text"
                        name="first-name" id="first-name" autocomplete="given-name"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                        placeholder="Doe"
@@ -145,12 +138,12 @@ const showExBilling = async () => {
             <div class="sm:col-span-4">
               <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone number</label>
               <div class="mt-2">
-                <input v-if="!billingResponseMessage?.response?.phoneNumber" v-model="phoneNumber" type="text"
+                <input v-if="!billingResponseMessage?.content?.phone" v-model="phoneNumber" type="text"
                        name="phoneNumber" id="phoneNumber" autocomplete="phoneNumber"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                        placeholder="+4901234569781"
                 />
-                <input v-else-if="billingResponseMessage?.response?.phoneNumber" v-model="phoneNumber" type="text"
+                <input v-else-if="billingResponseMessage?.content?.phone" v-model="phoneNumber" type="text"
                        name="first-name" id="first-name" autocomplete="given-name"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                        placeholder="+4901234569781"
@@ -173,12 +166,12 @@ const showExBilling = async () => {
               <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Street
                 address</label>
               <div class="mt-2">
-                <input v-if="!billingResponseMessage?.response?.address" v-model="address" type="text" name="street"
+                <input v-if="!billingResponseMessage?.content?.address" v-model="address" type="text" name="street"
                        id="street" autocomplete="address"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                        placeholder="Main Street 34b"
                 />
-                <input v-else-if="billingResponseMessage?.response?.address" v-model="address" type="text"
+                <input v-else-if="billingResponseMessage?.content?.address" v-model="address" type="text"
                        name="address" id="address" autocomplete="address"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                        placeholder="Main Street 34b"
@@ -189,12 +182,12 @@ const showExBilling = async () => {
             <div class="sm:col-span-2 sm:col-start-1">
               <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
               <div class="mt-2">
-                <input v-if="!billingResponseMessage?.response?.city" v-model="city" type="text" name="City" id="City"
+                <input v-if="!billingResponseMessage?.content?.city" v-model="city" type="text" name="City" id="City"
                        autocomplete="City"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                        placeholder="Ingolstadt"
                 />
-                <input v-else-if="billingResponseMessage?.response?.city" v-model="city" type="text" name="City"
+                <input v-else-if="billingResponseMessage?.content?.city" v-model="city" type="text" name="City"
                        id="City" autocomplete="City"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                        placeholder="Ingolstadt"
@@ -205,12 +198,13 @@ const showExBilling = async () => {
             <div class="sm:col-span-2">
               <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Postal Code</label>
               <div class="mt-2">
-                <input v-if="!billingResponseMessage?.response?.zip" v-model="postalCode" type="text" name="postal-code"
+                <input v-if="!billingResponseMessage?.content?.postalCode" v-model="postalCode" type="text"
+                       name="postal-code"
                        id="postal-code" autocomplete="postal-code"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                        placeholder="0013838"
                 />
-                <input v-else-if="billingResponseMessage?.response?.zip" v-model="postalCode" type="text"
+                <input v-else-if="billingResponseMessage?.content?.postalCode" v-model="postalCode" type="text"
                        name="postal-code" id="postal-code" autocomplete="postal-code"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                        placeholder="0013838"
@@ -221,12 +215,12 @@ const showExBilling = async () => {
             <div class="sm:col-span-2">
               <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State / Province</label>
               <div class="mt-2">
-                <input v-if="!billingResponseMessage?.response?.region" v-model="region" type="text" name="region"
+                <input v-if="!billingResponseMessage?.content?.region" v-model="region" type="text" name="region"
                        id="region" autocomplete="region"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                        placeholder="Northrine-Westfalia"
                 />
-                <input v-else-if="billingResponseMessage?.response?.region" v-model="region" type="text" name="region"
+                <input v-else-if="billingResponseMessage?.content?.region" v-model="region" type="text" name="region"
                        id="region" autocomplete="region"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                        placeholder="Northrine-Westfalia"
@@ -331,4 +325,5 @@ const showExBilling = async () => {
       </div>
     </div>
   </div>
+
 </template>
